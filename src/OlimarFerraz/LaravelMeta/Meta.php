@@ -1,5 +1,6 @@
 <?php
-namespace Eusonlito\LaravelMeta;
+
+namespace OlimarFerraz\LaravelMeta;
 
 class Meta
 {
@@ -24,10 +25,10 @@ class Meta
      * @var array
      */
     protected $defaults = [
-        'title_limit' => 70,
+        'title_limit'       => 70,
         'description_limit' => 200,
-        'image_limit' => 5,
-        'tags' => ['Tag', 'MetaName', 'MetaProperty', 'TwitterCard']
+        'image_limit'       => 5,
+        'tags'              => ['Tag', 'MetaName', 'MetaProperty', 'TwitterCard'],
     ];
 
     /**
@@ -37,6 +38,7 @@ class Meta
 
     /**
      * @param  array $config = []
+     *
      * @return object
      */
     public static function getInstance(array $config = [])
@@ -45,23 +47,25 @@ class Meta
     }
 
     /**
-     * @param  array $config = []
+     * Meta constructor.
      *
-     * @return this
+     * @param array $config
      */
     public function __construct($config = [])
     {
         if (!empty($config)) {
             $this->setConfig($config);
+            $this->title($config['title']);
+            $this->setDefaultTags();
         }
 
         $this->metas['image'] = [];
     }
 
     /**
-     * @param  array $config = []
+     * @param array $config
      *
-     * @return this
+     * @return $this
      */
     public function setConfig(array $config = [])
     {
@@ -69,7 +73,7 @@ class Meta
 
         foreach ($this->defaults as $key => $value) {
             if (!array_key_exists($key, $config)) {
-                $config[$key] = $value;
+                $config[ $key ] = $value;
             }
         }
 
@@ -79,13 +83,29 @@ class Meta
     }
 
     /**
+     * @param array $tags
+     */
+    public function setDefaultTags(array $tags = [])
+    {
+        if (empty($tags)) {
+            $tags = $this->config['default_tags'];
+        }
+
+        $tags['locale'] = app()->getLocale();
+
+        foreach ($tags as $key => $tag) {
+            $this->set($key, $tag);
+        }
+    }
+
+    /**
      * @param  string|null $title = null
      *
      * @return string
      */
-    public function title($title = null)
+    public function title($title = NULL)
     {
-        if ($title === null) {
+        if ($title === NULL) {
             return $this->title;
         }
 
@@ -107,13 +127,13 @@ class Meta
     public function set($key, $value)
     {
         $value = $this->plain($value);
-        $method = 'set'.$key;
+        $method = 'set' . $key;
 
         if (method_exists($this, $method)) {
             return $this->$method($value);
         }
 
-        return $this->metas[$key] = self::cut($value, $key);
+        return $this->metas[ $key ] = self::cut($value, $key);
     }
 
     /**
@@ -123,12 +143,12 @@ class Meta
      */
     public function remove($key)
     {
-        $method = 'remove'.$key;
+        $method = 'remove' . $key;
 
         if (method_exists($this, $method)) {
             $this->$method();
         } else {
-            unset($this->metas[$key]);
+            unset($this->metas[ $key ]);
         }
     }
 
@@ -142,13 +162,13 @@ class Meta
         $title = $this->title;
 
         if ($title && $this->config['title_limit']) {
-            $title = ' - '.$title;
+            $title = "{$this->config['title_separator']} {$title}";
             $limit = $this->config['title_limit'] - mb_strlen($title);
         } else {
             $limit = 'title';
         }
 
-        return $this->metas['title'] = self::cut($value, $limit).$title;
+        return $this->metas['title'] = self::cut($value, $limit) . $title;
     }
 
     /**
@@ -183,17 +203,17 @@ class Meta
      */
     public function get($key, $default = '')
     {
-        $method = 'get'.$key;
+        $method = 'get' . $key;
 
         if (method_exists($this, $method)) {
             return $this->$method($default);
         }
 
-        if (empty($this->metas[$key])) {
+        if (empty($this->metas[ $key ])) {
             return $default;
         }
 
-        return $this->metas[$key];
+        return $this->metas[ $key ];
     }
 
     /**
@@ -231,7 +251,7 @@ class Meta
         $html = '';
 
         foreach ($this->config['tags'] as $tag) {
-            $class = __NAMESPACE__.'\\Tags\\'.$tag;
+            $class = __NAMESPACE__ . '\\Tags\\' . $tag;
 
             foreach ($values as $value) {
                 $html .= $class::tag($key, $value);

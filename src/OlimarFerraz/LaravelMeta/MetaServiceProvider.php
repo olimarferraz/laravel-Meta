@@ -1,7 +1,9 @@
 <?php
-namespace Eusonlito\LaravelMeta;
+
+namespace OlimarFerraz\LaravelMeta;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class MetaServiceProvider extends ServiceProvider
 {
@@ -10,7 +12,7 @@ class MetaServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = true;
+    protected $defer = TRUE;
 
     /**
      * Bootstrap the application events.
@@ -20,7 +22,7 @@ class MetaServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../../config/config.php' => config_path('meta.php')
+            __DIR__ . '/../../config/config.php' => config_path('meta.php'),
         ]);
     }
 
@@ -44,5 +46,19 @@ class MetaServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['meta'];
+    }
+
+    /**
+     * Register Blade directives
+     */
+    protected function directives()
+    {
+        Blade::directive('metas', function ($args) {
+            return "<?php echo Meta::tags($args)?>";
+        });
+
+        Blade::directive('meta', function ($args) {
+            return "<?php echo Meta::tag($args)?>";
+        });
     }
 }

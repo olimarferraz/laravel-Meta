@@ -1,5 +1,6 @@
 <?php
-namespace Eusonlito\LaravelMeta;
+
+namespace OlimarFerraz\LaravelMeta;
 
 use Illuminate\Support\Facades\Facade as LFacade;
 

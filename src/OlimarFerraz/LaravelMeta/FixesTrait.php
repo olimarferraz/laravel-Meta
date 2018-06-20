@@ -1,13 +1,15 @@
 <?php
-namespace Eusonlito\LaravelMeta;
+
+namespace OlimarFerraz\LaravelMeta;
 
 trait FixesTrait
 {
     /**
      * @param  string $text
+     *
      * @return string
      */
-    protected function plain($text)
+    protected function plain(string $text): string 
     {
         return trim(str_replace('"', '&quot;', preg_replace('/[\r\n\s]+/', ' ', strip_tags($text))));
     }
@@ -15,9 +17,10 @@ trait FixesTrait
     /**
      * @param  string $text
      * @param  string $key
+     *
      * @return string
      */
-    protected function cut($text, $key)
+    protected function cut(string $text, $key): string 
     {
         if (empty($text) || !is_string($text)) {
             return $text;
@@ -25,15 +28,15 @@ trait FixesTrait
 
         if (is_integer($key)) {
             $limit = $key;
-        } elseif (is_string($key) && !empty($this->config[$key.'_limit'])) {
-            $limit = $this->config[$key.'_limit'];
+        } elseif (is_string($key) && !empty($this->config[ $key . '_limit' ])) {
+            $limit = $this->config[ $key . '_limit' ];
         } else {
             return $text;
         }
 
         $length = mb_strlen($text);
 
-        if ($length <= (int) $limit) {
+        if ($length <= (int)$limit) {
             return $text;
         }
 
@@ -43,6 +46,6 @@ trait FixesTrait
             $text = mb_substr($text, 0, $space);
         }
 
-        return $text.'...';
+        return $text . '...';
     }
 }

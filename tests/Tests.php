@@ -1,5 +1,6 @@
 <?php
-use Eusonlito\LaravelMeta\Meta;
+
+use OlimarFerraz\LaravelMeta\Meta;
 
 class Tests extends PHPUnit_Framework_TestCase
 {
@@ -11,9 +12,9 @@ class Tests extends PHPUnit_Framework_TestCase
         self::$title = self::text(20);
 
         $this->Meta = new Meta([
-            'title_limit' => 70,
+            'title_limit'       => 70,
             'description_limit' => 200,
-            'image_limit' => 5
+            'image_limit'       => 5,
         ]);
     }
 
@@ -61,11 +62,11 @@ class Tests extends PHPUnit_Framework_TestCase
 
         $response = $this->Meta->set('title', $text = self::text(30));
 
-        $this->assertTrue($text.' - '.self::$title === $response);
+        $this->assertTrue($text . ' - ' . self::$title === $response);
 
         $response = $this->Meta->set('title', $text = self::text(80));
 
-        $this->assertNotTrue($text.' - '.self::$title === $response);
+        $this->assertNotTrue($text . ' - ' . self::$title === $response);
         $this->assertTrue(mb_strlen($response) === 70);
     }
 
@@ -80,7 +81,7 @@ class Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue($text === $response);
 
         for ($i = 0; $i < 5; $i++) {
-            $response = $this->Meta->set('image', $text =self::text(80));
+            $response = $this->Meta->set('image', $text = self::text(80));
 
             if ($i > 2) {
                 $this->assertTrue(empty($response));
@@ -103,8 +104,8 @@ class Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue(mb_substr_count($tag, '<meta name="twitter:title"') === 1);
         $this->assertTrue(mb_substr_count($tag, '<meta property="og:title"') === 1);
         $this->assertTrue(mb_substr_count($tag, '<title>') === 1);
-        $this->assertTrue(mb_strstr($tag, self::$title) ? true : false);
-        $this->assertTrue(mb_strstr($tag, $text) ? true : false);
+        $this->assertTrue(mb_strstr($tag, self::$title) ? TRUE : FALSE);
+        $this->assertTrue(mb_strstr($tag, $text) ? TRUE : FALSE);
     }
 
     public function testTagDescription()
@@ -117,7 +118,7 @@ class Tests extends PHPUnit_Framework_TestCase
         $this->assertTrue(mb_substr_count($tag, '<meta name="twitter:description"') === 1);
         $this->assertTrue(mb_substr_count($tag, '<meta property="og:description"') === 1);
         $this->assertTrue(mb_substr_count($tag, '<description>') === 0);
-        $this->assertTrue(mb_strstr($tag, $text) ? true : false);
+        $this->assertTrue(mb_strstr($tag, $text) ? TRUE : FALSE);
     }
 
     public function testTagImage()
