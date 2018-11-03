@@ -1,6 +1,6 @@
 <?php
 
-namespace OlimarFerraz\LaravelMeta;
+namespace Z1lab\LaravelMeta;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;

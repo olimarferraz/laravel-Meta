@@ -1,6 +1,6 @@
 <?php
 
-use OlimarFerraz\LaravelMeta\Meta;
+use Z1lab\LaravelMeta\Meta;
 
 class Tests extends PHPUnit_Framework_TestCase
 {

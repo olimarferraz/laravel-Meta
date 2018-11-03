@@ -1,6 +1,6 @@
 <?php
 
-namespace OlimarFerraz\LaravelMeta;
+namespace Z1lab\LaravelMeta;
 
 trait FixesTrait
 {

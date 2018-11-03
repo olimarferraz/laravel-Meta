@@ -17,7 +17,7 @@
     },
     {
       "name": "Olimar Ferraz",
-      "email": "olimarferraz@gmail.com"
+      "email": "webmaster@z1lab.com.br"
     }
   ],
   "require": {
@@ -29,16 +29,16 @@
   },
   "autoload": {
     "psr-4": {
-      "OlimarFerraz\\LaravelMeta\\": "src/OlimarFerraz/LaravelMeta/"
+      "Z1lab\\LaravelMeta\\": "src/Z1lab/LaravelMeta/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "OlimarFerraz\\LaravelMeta\\MetaServiceProvider"
+        "Z1lab\\LaravelMeta\\MetaServiceProvider"
       ],
       "aliases": {
-        "Meta": "OlimarFerraz\\LaravelMeta\\Facade"
+        "Meta": "Z1lab\\LaravelMeta\\Facade"
       }
     }
   }

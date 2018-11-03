@@ -1,6 +1,6 @@
 <?php
 
-namespace OlimarFerraz\LaravelMeta\Tags;
+namespace Z1lab\LaravelMeta\Tags;
 
 abstract class TagAbstract implements TagInterface
 {
